@@ -269,10 +269,10 @@ protected:
 			if (!(MessageWindowClass = ::RegisterClassExW(&wcex)))
 				TVPThrowExceptionMessage(TJS_W("register window class failed."));
 		}
-		HWND hwnd = ::CreateWindowExW(0, (LPCWSTR)MAKELONG(MessageWindowClass, 0), MSGWND_WINDOWNAME,
+		HWND hwnd = ::CreateWindowExW(0, (LPCWSTR)MessageWindowClass, MSGWND_WINDOWNAME,
 									  0, 0, 0, 1, 1, HWND_MESSAGE, NULL, hinst, NULL);
 		if (!hwnd) TVPThrowExceptionMessage(TJS_W("create message window failed."));
-		::SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)this);
+		::SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)(tjs_intptr_t)this);
 		return hwnd;
 	}
 	HWND destroyMessageWindow(HWND hwnd) {
@@ -296,7 +296,7 @@ protected:
 	}
 public:
 	static void UnregisterMessageWindowClass() {
-		if (MessageWindowClass != 0 && ::UnregisterClassW((LPCWSTR)MAKELONG(MessageWindowClass, 0), ::GetModuleHandle(NULL)))
+		if (MessageWindowClass != 0 && ::UnregisterClassW((LPCWSTR)MessageWindowClass, ::GetModuleHandle(NULL)))
 			MessageWindowClass = 0;
 	}
 
