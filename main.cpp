@@ -272,7 +272,7 @@ protected:
 		HWND hwnd = ::CreateWindowExW(0, (LPCWSTR)MessageWindowClass, MSGWND_WINDOWNAME,
 									  0, 0, 0, 1, 1, HWND_MESSAGE, NULL, hinst, NULL);
 		if (!hwnd) TVPThrowExceptionMessage(TJS_W("create message window failed."));
-		::SetWindowLongPtr(hwnd, GWLP_USERDATA, (tjs_intptr_t)this);
+		::SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)(tjs_intptr_t)this);
 		return hwnd;
 	}
 	HWND destroyMessageWindow(HWND hwnd) {
